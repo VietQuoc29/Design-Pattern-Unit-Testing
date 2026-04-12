@@ -4,19 +4,19 @@ export interface PaymentStrategy {
 
 export class CreditCardStrategy implements PaymentStrategy {
   pay(amount: number): string {
-    return `Thanh toán ${amount}đ bằng thẻ tín dụng`;
+    return `Pays ${amount}d with credit card`;
   }
 }
 
 export class MomoStrategy implements PaymentStrategy {
   pay(amount: number): string {
-    return `Thanh toán ${amount}đ bằng MoMo`;
+    return `Pays ${amount}d with MoMo`;
   }
 }
 
 export class ZaloPayStrategy implements PaymentStrategy {
   pay(amount: number): string {
-    return `Thanh toán ${amount}đ bằng ZaloPay`;
+    return `Pays ${amount}d with ZaloPay`;
   }
 }
 

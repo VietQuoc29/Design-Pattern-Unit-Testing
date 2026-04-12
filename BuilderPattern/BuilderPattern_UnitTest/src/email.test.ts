@@ -1,7 +1,7 @@
 import { EmailBuilder } from './email';
 
 describe('EmailBuilder', () => {
-  it('Khởi tạo email với các giá trị tùy chỉnh', () => {
+  it('Creates an email with the specified values', () => {
     const email = new EmailBuilder()
       .withTo('quoc@gmail.com')
       .withSubject('Meeting')
@@ -15,7 +15,7 @@ describe('EmailBuilder', () => {
     expect(email.cc).toBe('manager@gmail.com');
   });
 
-  it('Khởi tạo email với các giá trị mặc định', () => {
+  it('Creates an email with the default values', () => {
     const email = new EmailBuilder().build();
 
     expect(email.to).toBe('user@gmail.com');
@@ -24,7 +24,7 @@ describe('EmailBuilder', () => {
     expect(email.cc).toBeUndefined();
   });
 
-  it('Khởi tạo email không có cc', () => {
+  it('Creates an email without CC', () => {
     const email = new EmailBuilder()
       .withTo('test@gmail.com')
       .withSubject('Test')
@@ -35,7 +35,7 @@ describe('EmailBuilder', () => {
     expect(email.cc).toBeUndefined();
   });
 
-  it('Khởi tạo email với các giá trị khác nhau', () => {
+  it('Creates different emails with unique values', () => {
     const welcomeEmail = new EmailBuilder()
       .withSubject('Welcome')
       .withBody('Hello!')

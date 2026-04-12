@@ -1,47 +1,39 @@
-1. # **BUILDER PATTERN \- LÝ THUYẾT**
+1. # **Builder Pattern**
 
-   1. ## **Định nghĩa**
+   1. ## **Definition**
 
-Builder Pattern là một mẫu thiết kế creational pattern, được sử dụng để xây dựng các đối tượng phức tạp một cách từng bước. Thay vì tạo một đối tượng với tất cả các tham số cùng một lúc (thông qua constructor), Builder Pattern cho phép bạn xây dựng đối tượng từng thuộc tính một, với tính linh hoạt và dễ đọc cao.
+The Builder Pattern is a creational design pattern used to build complex objects step-by-step. Instead of creating an object with all its parameters at once (via the constructor), the Builder Pattern allows you to build the object property by property, offering greater flexibility and readability.
 
-Trong ngữ cảnh Unit Testing, Builder Pattern được sử dụng để tạo các đối tượng test fixture một cách dễ dàng và dễ bảo trì. Nó giúp giảm thiểu code boilerplate, cải thiện tính khả đọc của test cases, và làm cho việc tạo các biến thể của dữ liệu test trở nên đơn giản hơn.
+2. ## **Structure**
 
-2. ## **Cấu trúc**
+Builder Pattern consists of four main components:
 
-Builder Pattern thường bao gồm các thành phần chính sau:
+- Product**:** The final object needs to be created.  
+- Builder**:** The class is responsible for building the Product.  
+- Director (optional): Construction process control layer  
+- Chaining Methods: The methods in Builder return themselves to allow method chaining.
 
-- Product**:** Đối tượng cuối cùng cần được tạo ra  
-- Builder**:** Lớp chịu trách nhiệm xây dựng Product  
-- Director (tuỳ chọn): Lớp điều khiển quá trình xây dựng  
-- Chaining Methods: Các phương thức trong Builder trả về chính nó để cho phép method chaining
+  3. ## **Applicability**
 
-  3. ## **Sử dụng**
+- Get rid of a “telescoping constructor”.  
+- Want your code to be able to create different representations of some product.  
+- Construct Composite trees or other complex objects.
 
-Builder Pattern đặc biệt hữu ích trong các tình huống sau:
+  4. ## **Pros and Cons**
 
-- Tạo các đối tượng test fixture với nhiều thuộc tính tùy chọn  
-- Cần tạo nhiều biến thể của cùng một đối tượng với các giá trị khác nhau  
-- Muốn giảm thiểu số lượng constructor overloading hoặc parameterized constructors  
-- Test cases cần dữ liệu phức tạp hoặc lồng nhau (nested objects)  
-- Muốn làm cho test code dễ đọc và tự nhân diện (self-documenting)  
-- Muốn tách biệt việc tạo object từ cách sử dụng nó
-
-  4. ## **Ưu và nhược điểm**
-
-| Ưu điểm | Nhược điểm |
+| Prospects | Consequences |
 | :---- | :---- |
-| Tính dễ đọc | Tăng độ phức tạp |
-| Linh hoạt với giá trị mặc định | Lệnh gọi hàm dài |
-| Loại bỏ constructor overloading | State mutability |
-| Dễ bảo trì |  |
+| Single Responsibility Principle | The overall complexity of the code increases since the pattern requires creating multiple new classes |
+| Can construct objects step-by-step, defer construction steps or run steps recursively |  |
+| Can reuse the same construction code when building various representations of products |  |
 
 # 
 
-2. # **Ví dụ 1 \- EMAIL BUILDER**
+2. # **Ex1 \- Email Builder**
 
-## **Mô tả bài toán**
+## **Describe**
 
-Tạo Builder cho đối tượng Email với các thuộc tính: to, subject, body, cc. Sử dụng giá trị mặc định để test các trường hợp khác nhau.
+Create a Builder for the Email object with the following attributes: to, subject, body, cc. Use the default values ​​to test different scenarios.
 
 ## **Source code: email.ts**
 
@@ -90,7 +82,7 @@ export class EmailBuilder {
 import { EmailBuilder } from './email';
 
 describe('EmailBuilder', () \=\> {  
-  it('Khởi tạo email với các giá trị tùy chỉnh', () \=\> {  
+  it('Creates an email with the specified values', () \=\> {  
     const email \= new EmailBuilder()  
       .withTo('quoc@gmail.com')  
       .withSubject('Meeting')  
@@ -104,7 +96,7 @@ describe('EmailBuilder', () \=\> {
     expect(email.cc).toBe('manager@gmail.com');  
   });
 
-  it('Khởi tạo email với các giá trị mặc định', () \=\> {  
+  it('Creates an email with the default values', () \=\> {  
     const email \= new EmailBuilder().build();
 
     expect(email.to).toBe('user@gmail.com');  
@@ -113,7 +105,7 @@ describe('EmailBuilder', () \=\> {
     expect(email.cc).toBeUndefined();  
   });
 
-  it('Khởi tạo email không có cc', () \=\> {  
+  it('Creates an email without CC', () \=\> {  
     const email \= new EmailBuilder()  
       .withTo('test@gmail.com')  
       .withSubject('Test')  
@@ -124,7 +116,7 @@ describe('EmailBuilder', () \=\> {
     expect(email.cc).toBeUndefined();  
   });
 
-  it('Khởi tạo email với các giá trị khác nhau', () \=\> {  
+  it('Creates different emails with unique values', () \=\> {  
     const welcomeEmail \= new EmailBuilder()  
       .withSubject('Welcome')  
       .withBody('Hello\!')  
@@ -141,11 +133,11 @@ describe('EmailBuilder', () \=\> {
   });  
 });
 
-3. # **Ví dụ 2 \- PERSON BUILDER**
+3. # **Ex2 \- Person Builder**
 
-## **Mô tả bài toán**
+## **Describe**
 
-Tạo Builder cho đối tượng Person với các thuộc tính: firstName, lastName, age, email. Sử dụng giá trị mặc định để test các trường hợp khác nhau.
+Create a Builder object for Person with the following attributes: firstName, lastName, age, and email. Use the default values ​​to test different scenarios.
 
 ## **Source code: person.ts**
 
@@ -194,7 +186,7 @@ export class PersonBuilder {
 import { PersonBuilder } from './person';
 
 describe('PersonBuilder', () \=\> {  
-  it('Khởi tạo người với các giá trị tùy chỉnh', () \=\> {  
+  it('Creates a person with the specified values', () \=\> {  
     const person \= new PersonBuilder()  
       .withFirstName('Quoc1')  
       .withLastName('Tran1')  
@@ -208,7 +200,7 @@ describe('PersonBuilder', () \=\> {
     expect(person.email).toBe('quoc1@gmail.com');  
   });
 
-  it('Khởi tạo người với các giá trị mặc định', () \=\> {  
+  it('Creates a person with the default values', () \=\> {  
     const person \= new PersonBuilder().build();
 
     expect(person.firstName).toBe('Quoc');  
@@ -217,7 +209,7 @@ describe('PersonBuilder', () \=\> {
     expect(person.email).toBe('quoc@gmail.com');  
   });
 
-  it('Khởi tạo người với tùy chỉnh một phần', () \=\> {  
+  it('Creates a person with some customized values', () \=\> {  
     const person \= new PersonBuilder()  
       .withFirstName('Quoc2')  
       .withAge(25)  
@@ -229,7 +221,7 @@ describe('PersonBuilder', () \=\> {
     expect(person.email).toBe('quoc@gmail.com'); // default  
   });
 
-  it('Khởi tạo nhiều người khác nhau', () \=\> {  
+  it('Creates different people with unique values', () \=\> {  
     const person1 \= new PersonBuilder().withFirstName('Quoc1').build();  
     const person2 \= new PersonBuilder().withFirstName('Quoc2').build();
 
@@ -238,11 +230,11 @@ describe('PersonBuilder', () \=\> {
   });  
 });
 
-4. # **Ví dụ 3 \- PRODUCT BUILDER**
+4. # **Ex3 \- Product Builder**
 
-## **Mô tả bài toán**
+## **Describe**
 
-Tạo Builder cho đối tượng Product với các thuộc tính: name, price, stock. Sử dụng giá trị mặc định để test các trường hợp khác nhau.
+Create a Builder object for the Product object with the following attributes: name, price, and stock. Use the default values ​​to test different scenarios.
 
 ## **Source code: product.ts**
 
@@ -284,7 +276,7 @@ export class ProductBuilder {
 import { ProductBuilder } from './product';
 
 describe('ProductBuilder', () \=\> {  
-  it('Khởi tạo sản phẩm với các giá trị tùy chỉnh', () \=\> {  
+  it('Creates a product with the specified values', () \=\> {  
     const product \= new ProductBuilder()  
       .withName('Laptop')  
       .withPrice(999)  
@@ -296,7 +288,7 @@ describe('ProductBuilder', () \=\> {
     expect(product.stock).toBe(10);  
   });
 
-  it('Khởi tạo sản phẩm với các giá trị mặc định', () \=\> {  
+  it('Creates a product with the default values', () \=\> {  
     const product \= new ProductBuilder().build();
 
     expect(product.name).toBe('Keyboard');  
@@ -304,7 +296,7 @@ describe('ProductBuilder', () \=\> {
     expect(product.stock).toBe(0);  
   });
 
-  it('Khởi tạo sản phẩm với tùy chỉnh một phần', () \=\> {  
+  it('Creates a product with some customized values', () \=\> {  
     const product \= new ProductBuilder()  
       .withName('Mouse')  
       .withPrice(25)  
@@ -314,5 +306,4 @@ describe('ProductBuilder', () \=\> {
     expect(product.price).toBe(25);  
     expect(product.stock).toBe(0); // default  
   });  
-});
-
+});  

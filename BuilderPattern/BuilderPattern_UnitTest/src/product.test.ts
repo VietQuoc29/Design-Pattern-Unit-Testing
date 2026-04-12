@@ -1,7 +1,7 @@
 import { ProductBuilder } from './product';
 
 describe('ProductBuilder', () => {
-  it('Khởi tạo sản phẩm với các giá trị tùy chỉnh', () => {
+  it('Creates a product with the specified values', () => {
     const product = new ProductBuilder()
       .withName('Laptop')
       .withPrice(999)
@@ -13,7 +13,7 @@ describe('ProductBuilder', () => {
     expect(product.stock).toBe(10);
   });
 
-  it('Khởi tạo sản phẩm với các giá trị mặc định', () => {
+  it('Creates a product with the default values', () => {
     const product = new ProductBuilder().build();
 
     expect(product.name).toBe('Keyboard');
@@ -21,7 +21,7 @@ describe('ProductBuilder', () => {
     expect(product.stock).toBe(0);
   });
 
-  it('Khởi tạo sản phẩm với tùy chỉnh một phần', () => {
+  it('Creates a product with some customized values', () => {
     const product = new ProductBuilder()
       .withName('Mouse')
       .withPrice(25)

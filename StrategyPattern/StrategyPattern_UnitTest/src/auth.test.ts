@@ -15,15 +15,15 @@ describe('Authentication System (Strategy Pattern)', () => {
       ctx = new AuthContext(new LocalAuthStrategy());
     });
 
-    it('đăng nhập thành công với đúng tài khoản', () => {
+    it('Successfully logged in with the correct account', () => {
       expect(ctx.login({ username: 'admin', password: 'admin123' })).toBe(true);
     });
 
-    it('đăng nhập thất bại khi sai mật khẩu', () => {
+    it('Failed to log in with incorrect password', () => {
       expect(ctx.login({ username: 'admin', password: 'user' })).toBe(false);
     });
 
-    it('đăng nhập thất bại khi username không tồn tại', () => {
+    it('Failed to log in with non-existent username', () => {
       expect(ctx.login({ username: 'user', password: 'admin123' })).toBe(false);
     });
   });
@@ -35,15 +35,15 @@ describe('Authentication System (Strategy Pattern)', () => {
       ctx = new AuthContext(new GoogleAuthStrategy());
     });
 
-    it('chấp nhận token Google hợp lệ', () => {
+    it('accepts a valid Google token', () => {
       expect(ctx.login({ token: 'google_abc123xyz' })).toBe(true);
     });
 
-    it('từ chối token không có tiền tố google_', () => {
+    it('rejects a token without the google_ prefix', () => {
       expect(ctx.login({ token: 'facebook_token' })).toBe(false);
     });
 
-    it('từ chối khi không có token', () => {
+    it('rejects the request when no token is provided', () => {
       expect(ctx.login({})).toBe(false);
     });
   });
@@ -55,32 +55,32 @@ describe('Authentication System (Strategy Pattern)', () => {
       ctx = new AuthContext(new JwtAuthStrategy());
     });
 
-    it('chấp nhận JWT đúng định dạng 3 phần', () => {
+    it('accepts a valid JWT with the correct format', () => {
       expect(ctx.login({ token: 'header.payload.signature' })).toBe(true);
     });
 
-    it('từ chối JWT chỉ có 2 phần', () => {
+    it('rejects a JWT with only 2 parts', () => {
       expect(ctx.login({ token: 'header.payload' })).toBe(false);
     });
 
-    it('từ chối chuỗi không có dấu chấm', () => {
+    it('rejects a token that is not a valid JWT', () => {
       expect(ctx.login({ token: 'invalidtoken' })).toBe(false);
     });
   });
 
-  describe('Chuyển đổi strategy lúc runtime', () => {
-    it('chuyển từ Local sang JWT', () => {
+  describe('Changing strategy at runtime', () => {
+    it('changes from Local to JWT', () => {
       const ctx = new AuthContext(new LocalAuthStrategy());
-      // Local: đúng
+      // Local: true
       expect(ctx.login({ username: 'admin', password: 'admin123' })).toBe(true);
-      // Chuyển sang JWT
+      // Switch to JWT
       ctx.setStrategy(new JwtAuthStrategy());
       expect(ctx.login({ token: 'a.b.c' })).toBe(true);
     });
   });
 
   describe('Mock strategy', () => {
-    it('kiểm tra credentials được truyền đúng vào strategy', () => {
+    it('checks that credentials are passed correctly to the strategy', () => {
       const mockStrategy: AuthStrategy = {
         authenticate: jest.fn().mockReturnValue(true),
       };

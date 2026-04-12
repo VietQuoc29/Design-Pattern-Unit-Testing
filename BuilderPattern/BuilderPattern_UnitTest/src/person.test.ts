@@ -1,7 +1,7 @@
 import { PersonBuilder } from './person';
 
 describe('PersonBuilder', () => {
-  it('Khởi tạo người với các giá trị tùy chỉnh', () => {
+  it('Creates a person with the specified values', () => {
     const person = new PersonBuilder()
       .withFirstName('Quoc1')
       .withLastName('Tran1')
@@ -15,7 +15,7 @@ describe('PersonBuilder', () => {
     expect(person.email).toBe('quoc1@gmail.com');
   });
 
-  it('Khởi tạo người với các giá trị mặc định', () => {
+  it('Creates a person with the default values', () => {
     const person = new PersonBuilder().build();
 
     expect(person.firstName).toBe('Quoc');
@@ -24,7 +24,7 @@ describe('PersonBuilder', () => {
     expect(person.email).toBe('quoc@gmail.com');
   });
 
-  it('Khởi tạo người với tùy chỉnh một phần', () => {
+  it('Creates a person with some customized values', () => {
     const person = new PersonBuilder()
       .withFirstName('Quoc2')
       .withAge(25)
@@ -36,7 +36,7 @@ describe('PersonBuilder', () => {
     expect(person.email).toBe('quoc@gmail.com'); // default
   });
 
-  it('Khởi tạo nhiều người khác nhau', () => {
+  it('Creates different people with unique values', () => {
     const person1 = new PersonBuilder().withFirstName('Quoc1').build();
     const person2 = new PersonBuilder().withFirstName('Quoc2').build();
 
